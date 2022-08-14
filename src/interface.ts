@@ -22,6 +22,16 @@ export interface Champion {
     mpperlevel: number;
     movespeed: number;
   };
-  tags: string[];
+  tags: ChampionTag[];
   title: string;
+}
+
+export enum ChampionTag {
+  Assassin = 'Assassin',
+  Fighter = 'Fighter',
+  Mage = 'Mage',
+  Marksman = 'Marksman',
+  Support = 'Support',
+  Tank = 'Tank',
+  All = 'All',
 }
