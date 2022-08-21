@@ -24,6 +24,7 @@ export interface Champion {
   };
   tags: ChampionTag[];
   title: string;
+  skins: { id: string; num: number; name: string; chromas: boolean }[];
 }
 
 export enum ChampionTag {

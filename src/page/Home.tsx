@@ -2,6 +2,10 @@ import React, { useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
 import { Champion, ChampionTag } from '../interface';
+import Dropdown from '../components/Dropdown';
+import { SearchIcon } from '@heroicons/react/solid';
+import { useNavigate } from 'react-router-dom';
+import { championProfilePicture } from '../constants';
 
 type Props = {};
 
@@ -25,25 +29,37 @@ const HomePage = (props: Props) => {
       });
   }, []);
 
+  const navigate = useNavigate();
+
   return (
     <div className='px-4'>
-      <form>
-        <input
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          type='search'
-        />
-        <select
-          value={selectedTag as string}
-          onChange={(e) => setSelectedTag(e.target.value as ChampionTag)}
-        >
-          <option value={ChampionTag.All}>Select a champion tag</option>
-          {Object.values(ChampionTag).map((tag) => (
-            <option key={tag} value={tag}>
-              {tag}
-            </option>
-          ))}
-        </select>
+      <form className='grid grid-cols-2 gap-2 py-4 md:grid-cols-3 lg:grid-cols-4'>
+        <div>
+          <label
+            htmlFor='name'
+            className='block text-sm font-medium text-gray-700'
+          >
+            Search By Name
+          </label>
+          <div className='relative mt-1 rounded-md shadow-sm'>
+            <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
+              <SearchIcon
+                className='w-5 h-5 text-gray-400'
+                aria-hidden='true'
+              />
+            </div>
+            <input
+              type='search'
+              name='name'
+              id='name'
+              className='block w-full py-2 pl-10 pr-2 border-gray-500 rounded-md shadow-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+              placeholder='Annie'
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+            />
+          </div>
+        </div>
+        <Dropdown setSelectedTag={setSelectedTag} selectedTag={selectedTag} />
       </form>
       <div className='grid grid-cols-3 gap-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8'>
         {champions
@@ -59,10 +75,11 @@ const HomePage = (props: Props) => {
             return (
               <div
                 key={champion.id}
-                className='p-2 space-y-2 text-center bg-gray-100 rounded-lg shadow-sm hover:shadow-lg hover:bg-slate-100 cursor pointer'
+                className='p-2 space-y-2 text-center bg-gray-100 rounded-lg shadow-sm hover:shadow-lg hover:bg-slate-100 cursor pointer hover:cursor-pointer'
+                onClick={() => navigate(`/champion/${champion.name}`)}
               >
                 <img
-                  src={`http://ddragon.leagueoflegends.com/cdn/12.14.1/img/champion/${champion.image.full}`}
+                  src={championProfilePicture + champion.image.full}
                   alt={champion.name}
                   className='w-full'
                 />
