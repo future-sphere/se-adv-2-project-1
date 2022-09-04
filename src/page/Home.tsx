@@ -13,16 +13,15 @@ const HomePage = (props: Props) => {
   const [champions, setChampions] = React.useState<Champion[]>([]);
   const [searchValue, setSearchValue] = React.useState<string>('');
   const [selectedTag, setSelectedTag] = React.useState<ChampionTag>(
-    ChampionTag.All,
+    ChampionTag.All
   );
   useEffect(() => {
     axios
       .get(
-        'http://ddragon.leagueoflegends.com/cdn/12.14.1/data/en_US/champion.json',
+        'http://ddragon.leagueoflegends.com/cdn/12.14.1/data/en_US/champion.json'
       )
       .then((res) => {
         setChampions(Object.values(res.data.data));
-        console.log(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -32,7 +31,7 @@ const HomePage = (props: Props) => {
   const navigate = useNavigate();
 
   return (
-    <div className='px-4'>
+    <div className='w-full max-w-5xl px-4 mx-auto'>
       <form className='grid grid-cols-2 gap-2 py-4 md:grid-cols-3 lg:grid-cols-4'>
         <div>
           <label
@@ -61,15 +60,15 @@ const HomePage = (props: Props) => {
         </div>
         <Dropdown setSelectedTag={setSelectedTag} selectedTag={selectedTag} />
       </form>
-      <div className='grid grid-cols-3 gap-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8'>
+      <div className='grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5'>
         {champions
           .filter((champion) =>
-            champion.name.toLowerCase().includes(searchValue.toLowerCase()),
+            champion.name.toLowerCase().includes(searchValue.toLowerCase())
           )
           .filter(
             (champion) =>
               selectedTag === ChampionTag.All ||
-              champion.tags.includes(selectedTag as ChampionTag),
+              champion.tags.includes(selectedTag as ChampionTag)
           )
           .map((champion) => {
             return (
